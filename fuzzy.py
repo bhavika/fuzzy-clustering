@@ -83,6 +83,16 @@ def FCM(dataframe, random_state=0, C=3, m=2):
 
 
 def Jm(data, W, C, D, centroids, m):
+    """
+    Objective function calculation 
+    :param data: numpy array
+    :param W: list of lists
+    :param C: int, no of clusters
+    :param D: int, no. of datapoints
+    :param centroids: list, centroids 
+    :param m: int, fuzzifier
+    :return: int, value of objective function
+    """
     mu = 0
     for i in range(D):
         for j in range(C):
@@ -92,6 +102,12 @@ def Jm(data, W, C, D, centroids, m):
 
 
 def getClusters(W, D):
+    """
+    For each data point, get original labels
+    :param W: list of lists 
+    :param D: int, size of dataset
+    :return: list, cluster labels
+    """
     cluster_labels = list()
     for i in range(D):
         temp = (W[i][0])
@@ -145,21 +161,3 @@ def calculate_centroids(data, W, C, D, m):
         c_j = numerator/denominator
         centroids.append(c_j)
     return centroids
-
-
-mu = [1, 1.5, 2]
-sigma = [0.1, 0.1, 0.2]
-n = 500
-p = [0.25, 0.5, 0.25]
-
-sigma2 = [0.3**0.5, 0.4 ** 0.5, 0.3 ** 0.5]
-
-dataset_1 = create_data(mu, sigma, n, p, random_seed=7)
-dataset_2 = create_data(mu, sigma2, n, p, random_seed=7)
-
-results_1 = FCM(dataset_1)
-labels1, centroids1 = results_1[0], results_1[1]
-
-print(labels1)
-print(centroids1)
-print("Accuracy metrics for Data 1 - Homogeneity, Completeness, V-Measure {}".format(homogeneity_completeness_v_measure(list(dataset_1['label']), labels1)))
